@@ -33,6 +33,21 @@ class Api extends RestController {
         $this->response($retorno, 201);
     }
 
+    public function usuario_get(){
+        //o primeiro parametro do load model é o nome do model que queremos chamar
+        //o segundo parametro "um" é um 'apelido' o qual pode ser usado depois
+        $this->load->model('usuario_model', 'um');
+
+        $id = $this->get('id');
+        if ($id > 0) {
+            $retorno = $this->um->get_one($id);
+        } else {
+            $retorno = $this->um->get_all();
+        }
+                
+        $this->response($retorno, (($retorno) ? 200 : 400));
+    }
+
 
 }
 
