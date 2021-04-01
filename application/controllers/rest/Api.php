@@ -48,6 +48,38 @@ class Api extends RestController {
         $this->response($retorno, (($retorno) ? 200 : 400));
     }
 
+    public function usuario_post(){
+        if ((!$this->post('email')) || (!$this->post('senha'))){
+            $this->response([
+                'status' => false,
+                'error' => 'Campos obrigatórios não preenchidos'
+            ], 400);
+            return;
+        }
+
+        //recebemos os dados via post
+        $dados = [
+            'email' => $this->post('email'),
+            'senha' => $this->post('senha')
+        ];
+
+        //carregamos o model
+        $this->load->model('usuario_model', 'um');
+        //mandamos inserir na base através do metodo insert do usuario_model
+        if($this->um->insert($dados)) {
+            $this->response([
+                'status' => true,
+                'message' => 'Usuário inserido com sucesso'
+            ], 200); //200 OK
+        } else {
+            $this->response([
+                'status' => false,
+                'error' => 'Falha ao inserir usuário'
+            ], 400); //400 bad request
+        }
+        
+    }
+
 
 }
 

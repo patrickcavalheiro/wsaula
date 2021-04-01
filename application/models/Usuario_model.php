@@ -19,6 +19,11 @@ class Usuario_model extends CI_Model {
         }
     }
 
+    public function insert($dados = array()){
+        $query = $this->db->insert(self::table, $dados);
+        return $this->db->affected_rows();
+    }
+
 }
 
 /* End of file Usuario_model.php */
