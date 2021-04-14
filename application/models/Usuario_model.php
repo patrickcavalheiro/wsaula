@@ -20,8 +20,26 @@ class Usuario_model extends CI_Model {
     }
 
     public function insert($dados = array()){
-        $query = $this->db->insert(self::table, $dados);
+        $this->db->insert(self::table, $dados);
         return $this->db->affected_rows();
+    }
+
+    public function update($id = 0, $dados = array()) {
+        if ($id > 0) {
+            $this->db->where('id', $id);
+            $this->db->update(self::table, $dados);
+            return $this->db->affected_rows();
+        }
+    }
+
+    public function delete($id = 0) {
+        if ($id > 0) {
+            $this->db->where('id', $id);
+            $this->db->delete(self::table);
+            return $this->db->affected_rows();
+        } else {
+            return false;
+        }
     }
 
 }

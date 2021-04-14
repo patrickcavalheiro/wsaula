@@ -80,6 +80,62 @@ class Api extends RestController {
         
     }
 
+    public function usuario_put(){
+        $id = $this->get('id');
+        if ((!$this->put('email')) || (!$this->put('senha')) || $id <= 0){
+            $this->response([
+                'status' => false,
+                'error' => 'Campos obrigatórios não preenchidos'
+            ], 400);
+            return;
+        }
+
+        //recebemos os dados via post
+        $dados = [
+            'email' => $this->put('email'),
+            'senha' => $this->put('senha')
+        ];
+
+        //carregamos o model
+        $this->load->model('usuario_model', 'um');
+        if ($this->um->update($id, $dados)) {
+            $this->response([
+                'status' => true,
+                'message' => 'Usuário alterado com sucesso'
+            ], 200); //200 OK
+        } else {
+            $this->response([
+                'status' => false,
+                'error' => 'Falha ao alterar usuário'
+            ], 400); //400 bad request
+        }
+    }
+
+    public function usuario_delete() {
+        $id = $this->get('id');
+        if ($id <= 0){
+            $this->response([
+                'status' => false,
+                'error' => 'Campos obrigatórios não preenchidos'
+            ], 400);
+            return;
+        }
+
+        //carregamos o model
+        $this->load->model('usuario_model', 'um');
+        if ($this->um->delete($id)) {
+            $this->response([
+                'status' => true,
+                'message' => 'Usuário deletado com sucesso'
+            ], 200); //200 OK
+        } else {
+            $this->response([
+                'status' => false,
+                'error' => 'Falha ao deletar usuário'
+            ], 400); //400 bad request
+        }
+    }
+
 
 }
 
